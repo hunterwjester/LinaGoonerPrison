@@ -3,154 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <title>★ LINA'S GOON PRISON ★</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <style>
-  * { box-sizing:border-box; }
-  body,html { margin:0; padding:0; height:100%; background:#000; color:#ff3366; font-family:'Courier New'; overflow:hidden; }
-  .center { position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; width:100%; }
-  button { background:#ff3366; color:#000; border:none; border-radius:20px; padding:18px 30px; font-size:2em; margin:10px; cursor:pointer; }
-  input { background:#111; color:#ff6699; border:3px solid #ff3366; padding:15px; font-size:1.8em; width:85%; margin:15px; text-align:center; }
-  #timer { font-size:16vw; letter-spacing:8px; margin:20px 0; animation:glow 3s infinite; }
-  @keyframes glow { 0%,100% { opacity:0.7 } 50% { opacity:1 } }
-  .bottom-bar { position:fixed; bottom:0; left:0; width:100%; background:rgba(0,0,0,0.9); padding:15px; text-align:center; }
-  .tab { color:#ff6699; font-size:1.8em; margin:0 25px; cursor:pointer; }
-  .hidden { display:none; }
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#000;color:#ff3366;font-family:'Courier New';overflow:hidden}
+.center{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:100%}
+button{background:#ff3366;color:#000;border:none;border-radius:20px;padding:20px 40px;font-size:2.5em;margin:15px;cursor:pointer;border-radius:30px}
+input{background:#111;color:#ff99cc;border:4px solid #ff3366;padding:18px;font-size:2em;width:88%;text-align:center;border-radius:20px}
+#timer{font-size:18vw;animation:g 3s infinite;letter-spacing:10px}
+@keyframes g{0%,100%{opacity:.6}50%{opacity:1}}
+.hidden{display:none}
+.bottom{position:fixed;bottom:0;width:100%;background:#111;padding:20px;text-align:center}
+.tab{color:#ff6699;font-size:2em;margin:0 30px;cursor:pointer}
 </style>
 </head>
 <body>
 
-<audio id="moans" loop preload="auto">
+<audio id="moans" loop>
   <source src="https://files.catbox.moe/8v0v8r.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Login Screen -->
-<div id="login" class="center">
-  <div style="font-size:3em; margin-bottom:30px;">Enter your gooner tag:</div>
-  <input type="text" id="username" placeholder="e.g. denied4lina" maxlength="20">
-  <button onclick="login()">ENTER PRISON FOREVER</button>
+<div id="start" class="center">
+  <div style="font-size:3.5em;margin-bottom:40px">Click to summon Lina ♡</div>
+  <button id="summon">START GOONING</button>
 </div>
 
-<!-- Main Prison (hidden until login) -->
-<div id="prison" class="hidden">
+<div id="main" class="hidden">
   <div id="timer">23:59:59</div>
-  
-  <div style="margin:30px;">
-    <button onclick="bend()">BEND COCK DOWN</button><br>
-    <button onclick="tribute()">SEND TRIBUTE $20</button><br>
-    <button onclick="mantraPress()">MANTRA ENTER</button><br>
-    <button id="mantraCount" style="background:#330011;">0 / 100</button>
+  <div class="center" style="top:42%">
+    <button onclick="alert('Bend it down HARD for 20 seconds. Hold. Feel the pain turn to pleasure ♡')">BEND COCK DOWN</button><br><br>
+    <button onclick="window.open('https://cash.app/$LinaGoddessLina','_blank');alert('Good boy. Send $20 right now.')">SEND TRIBUTE $20</button><br><br>
+    <button onclick="mantra()">I BELONG TO LINA</button><br><br>
+    <button id="count" style="background:#330011">0 mantras</button>
   </div>
-
-  <div style="font-size:2em; margin:30px;" id="status">Welcome, <span id="name"></span></div>
 </div>
 
-<!-- Bottom Menu Bar -->
-<div class="bottom-bar">
-  <span class="tab" onclick="showMenu('home')">HOME</span>
-  <span class="tab" onclick="showMenu('rules')">RULES</span>
-  <span class="tab" onclick="showMenu('board')">BOARD</span>
-</div>
-
-<!-- Full-screen Menus -->
-<div id="home" class="center hidden" style="color:#ff6699; font-size:2em; padding:20px;">
-  <p>Every click is saved forever.<br>You're never leaving ♡</p>
-  <button onclick="showMenu('')">BACK</button>
-</div>
-
-<div id="rules" class="center hidden" style="color:#ff6699; font-size:1.8em; padding:20px;">
-  <h1 style="color:#ff3366;">RULES</h1>
-  <p>• Real pussy is forbidden<br>• Bend down every erection<br>• Thank Lina after every ruin<br>• Send proof or be forgotten</p>
-  <button onclick="showMenu('')">BACK</button>
-</div>
-
-<div id="board" class="center hidden" style="color:#ff6699; font-size:1.8em; padding:20px;">
-  <h1 style="color:#ff3366;">LIVE LEADERBOARD</h1>
-  <ol id="leaders" style="text-align:left; font-size:1.6em;"></ol>
-  <button onclick="showMenu('')">BACK</button>
+<div class="bottom">
+  <span class="tab" onclick="alert('This prison has no escape ♡')">HOME</span>
+  <span class="tab" onclick="alert('Rules:\n• Real pussy forbidden forever\n• Bend on every erection\n• Ruin only\n• Thank Lina after')">RULES</span>
+  <span class="tab" onclick="alert('You are forever at the bottom until you tribute more ♡')">BOARD</span>
 </div>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDMzqe3aNyqgK-Td5P3FUcSOVGjgYJK1ZE",
-  authDomain: "linagoonprison-95daa.firebaseapp.com",
-  projectId: "linagoonprison-95daa",
-  storageBucket: "linagoonprison-95daa.firebasestorage.app",
-  messagingSenderId: "445778093734",
-  appId: "1:445778093734:web:76dbbd7b2184dce3c4f667",
-  measurementId: "G-21Z3VR4MCE"
+let count = 0;
+document.getElementById('summon').onclick = () => {
+  document.getElementById('start').classList.add('hidden');
+  document.getElementById('main').classList.remove('hidden');
+  document.getElementById('moans').play();
+  timer();
 };
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-let userRef = null;
-
-function login() {
-  let name = document.getElementById("username").value.trim().replace(/[^a-zA-Z0-9]/g,'');
-  if (name.length < 3) return alert("Name too short, puppy");
-  
-  userRef = db.collection("gooners").doc(name);
-  userRef.get().then(doc => {
-    if (!doc.exists) userRef.set({denialDays:0, mantras:0, tributes:0, joined:Date.now()});
-  }).then(() => {
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("prison").classList.remove("hidden");
-    document.getElementById("name").textContent = name;
-    document.getElementById("moans").play();
-    startTimer();
-    loadLeaderboard();
-  });
-}
-
-function startTimer() {
-  let s = 24*3600 - 1;
-  setInterval(() => {
-    if (s-- < 3600) s = 24*3600 - 1;
+function timer(){
+  let s = 86399;
+  setInterval(()=>{
+    if(s-- < 3600) s = 86399;
     let h = String(Math.floor(s/3600)).padStart(2,'0');
     let m = String(Math.floor(s%3600/60)).padStart(2,'0');
     let sec = String(s%60).padStart(2,'0');
-    document.getElementById("timer").textContent = `${h}:${m}:${sec}`;
-  }, 1000);
+    document.getElementById('timer').textContent = h+':'+m+':'+sec;
+  },1000);
 }
-
-function mantraPress() {
-  if (!userRef) return;
-  userRef.update({mantras: firebase.firestore.FieldValue.increment(1)});
-  let c = parseInt(document.getElementById("mantraCount").textContent) + 1;
-  document.getElementById("mantraCount").textContent = c + " / 100";
-  if (c >= 100) alert("You belong to Lina forever now ♡");
-}
-
-function bend() {
-  if (!userRef) return;
-  userRef.update({denialDays: firebase.firestore.FieldValue.increment(1)});
-  alert("Day added. You're weaker.");
-}
-
-function tribute() {
-  window.open("https://cash.app/$LinaGoddessLina", "_blank");
-  userRef.update({tributes: firebase.firestore.FieldValue.increment(20)});
-}
-
-function loadLeaderboard() {
-  db.collection("gooners").orderBy("denialDays","desc").limit(15).onSnapshot(snap => {
-    let ol = document.getElementById("leaders");
-    ol.innerHTML = "";
-    snap.forEach(d => {
-      let data = d.data();
-      let li = document.createElement("li");
-      li.textContent = `${d.id} — ${data.denialDays}d — $${data.tributes}`;
-      ol.appendChild(li);
-    });
-  });
-}
-
-function showMenu(menu) {
-  document.querySelectorAll('#home,#rules,#board').forEach(el => el.classList.add('hidden'));
-  if (menu) document.getElementById(menu).classList.remove('hidden');
+function mantra(){
+  count++;
+  document.getElementById('count').textContent = count + (count===1?' mantra':' mantras');
+  if(count % 50 === 0) alert('Fifty more and you’ll never cum normally again ♡');
 }
 </script>
-
 </body>
 </html>
