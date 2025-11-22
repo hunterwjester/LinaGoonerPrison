@@ -1,0 +1,18 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create site
+        run: |
+          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Lina Gooner Prison</title><style>body{background:#111;color:#fff;text-align:center;padding:50px;font-family:sans-serif}</style></head><body><h1>Lina Gooner Prison</h1><p>Site live! Tell me what to add next.</p></body></html>' > index.html
+          touch .nojekyll
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
