@@ -1,0 +1,7 @@
+name: Grok Build
+on: [push]
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Ready - send me repo URL, I replace this with real code"
